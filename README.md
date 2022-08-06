@@ -82,7 +82,9 @@ This network has then been trained on a Kaggle dataset for classifying images of
 
 First up, here are some of the results we can obtain from our trained network on some of the test dataset's images without any changes to the original images.
 
-*IMAGE1*
+<p align="center">
+  <img src="./images/collection1.png" width="100%"><br>
+ </p>
 
 Here we can see that the model seems to base its prediction on different pixel attribution patterns, for example clearly visible for the scissors images, that seem to have a clearly different pattern from the rock images. GradCam does so very prominently.
 
