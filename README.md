@@ -74,11 +74,13 @@ From the nowadays large zoo of different saliency methods and their derivatives 
 ## A small Experiment: How reliable are these Methods in Practice?
 In this part I wanted to give you an intuition on what can go wrong when simply applying a saliency methods on your model. As mentioned before when we apply our saliency method we are only looking for an explanation of our model on a particular reference image. From a single inference point we can say almost nothing about how our model performs or works on the entirety of the feature space possible input images might look like, and so whatever comes out of our saliency methods needs to always be connected to the input image we provided it. And so in this experiment we take a look at what happens to our expainable, the saliency methods I presented here when we play around with the input images a little.
 
-The used machine learning model is a multilayer convolutional network with pooling steps in between. In total we have:
+The used machine learning model is a multilayer convolutional network with pooling steps in between. After the convolutions we then apply a multilayer perceptron with a single hidden layer for the final classification.
 
-*DESCRIBE THE MODEL LAYOUT*
+<p align="center">
+  <img src="./images/network.png" width="100%"><br>
+ </p>
 
-This network has then been trained on a Kaggle dataset for classifying images of hand symbols for the game, **'Rock, Paper, Scissors'**. The dataset was split in a 70/20/10 ratio between a training-, validation-, and test dataset. It was trained for 30 Epochs until we reached 96% accuracy on the validation dataset using gradient descent as optimiser for this experiment.
+This network has then been trained on a Kaggle dataset for classifying images of hand symbols for the game, **'Rock, Paper, Scissors'** <a href="#5">[5]</a>. The dataset contains a total of 2188 images corresponding to the 'Rock' (726 images), 'Paper' (710 images) and 'Scissors' (752 images) hand gestures and was split in a 70/20/10 ratio between a training-, validation-, and test dataset. It was trained for 30 Epochs until we reached 96% accuracy on the validation dataset using gradient descent as optimizer for this experiment.
 
 First up, here are some of the results we can obtain from our trained network on some of the test dataset's images without any changes to the original images.
 
@@ -136,3 +138,9 @@ Simonyan, Karen, Andrea Vedaldi, and Andrew Zisserman. "Deep inside convolutiona
 <a id="4">[4]</a> 
 Danqing Liu; November 30, 2017; last accessed on 06.08.22
 <a href="https://medium.com/@danqing/a-practical-guide-to-relu-b83ca804f1f7">https://medium.com/@danqing/a-practical-guide-to-relu-b83ca804f1f7</a>
+
+
+<a id="5">[5]</a> 
+Julien de la Bruère-Terreault; 2019; last accessed on 06.08.22
+<a href="https://www.kaggle.com/datasets/drgfreeman/rockpaperscissors">https://www.kaggle.com/datasets/drgfreeman/rockpaperscissors</a>
+
