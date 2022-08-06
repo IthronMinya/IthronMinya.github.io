@@ -90,7 +90,9 @@ Here we can see that the model seems to base its prediction on different pixel a
 
 But now, let's increase the bias of the images. We are only adding a constant number on each channel of the input image, this makes the content for us visually brighter, but doesn't affect the relative pixel color differences. For us each channel value is capped at 255 as maximum brightness, so the visual representation is capped at that value, but the input for the model doesn't know that, so we can have inference anyways. So let's see how the different methods perform:
 
-*IMAGE2*
+<p align="center">
+  <img src="./images/collection2.png" width="100%"><br>
+ </p>
 
 The saliency map for Gradients x Inputs seems to greatly differ from the prediction without the increase of image bias. This seems counter intuitive, but as we can see, the output for Gradients x Inputs is not very stable and reliable as it initally seems, the predicted output class even stayed the same for all of our predictions, but the saliency map looks completely different.
 
