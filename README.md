@@ -98,13 +98,17 @@ The saliency map for Gradients x Inputs seems to greatly differ from the predict
 
 For Integrated Gradients we took a look at the effects of the input shift using different baseline images.
 
-*IMAGE3*
+<p align="center">
+  <img src="./images/collection3.png" width="100%"><br>
+ </p>
 
 From these images we can see that the black baseline image resulted in the best visual results without the shift it was the most sensitive to the shift once it was applied. The random and white baselines didn't change extremly with the white baseline being the most stable of the two, but this is can **only** be said for this particular set of input images and our used model. Under different circumstances choosing a fitting baseline image is a **hyperparameter** for Integrated Gradients and each of them might show different characteristics with varying input pertubations.
 
 Lastly let's look at what the input pertubation does to a GradCam explanation:
 
-*IMAGE4*
+<p align="center">
+  <img src="./images/collection4.png" width="100%"><br>
+ </p>
 
 Well, while some of the general shapes still remain, especially in the first and second images, it is clear that the resulting attribution maps are not really aligning with the optically relevant features of the hands in the images. This effect seems to be strongest for the last of the images, where suddenly most of the empty space of the image with only the green background seems to be very important for determining the target class. This clearly should not be the case if the model really used the shape of the hands for its predictions.
 
