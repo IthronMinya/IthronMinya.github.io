@@ -97,7 +97,6 @@ The used machine learning model is a multilayer convolutional network with pooli
 
 
 ```
-{
   class RockPaperScissorsClassifier(ImageClassificationBase):
     def __init__(self):
         super().__init__()
@@ -131,8 +130,6 @@ The used machine learning model is a multilayer convolutional network with pooli
 
     def forward(self, xb):
         return self.network(xb)
-
-}
 ```
 
 This network has then been trained on a Kaggle dataset for classifying images of hand symbols for the game, **'Rock, Paper, Scissors'** <a href="#5">[5]</a>. The dataset contains a total of 2188 images corresponding to the 'Rock' (726 images), 'Paper' (710 images) and 'Scissors' (752 images) hand gestures and was split in a 70/20/10 ratio between a training-, validation-, and test dataset. It was trained for 30 Epochs until we reached 96% accuracy on the validation dataset using gradient descent as optimizer for this experiment.
