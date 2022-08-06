@@ -78,13 +78,13 @@ From the nowadays large zoo of different saliency methods and their derivatives 
 
 * Only require gradients in the model
 * Can be used without or almost without modifying the ML model we want to generate explanations for
-* Model specific and post-training, and especially Gradient only methods are usually faster to compute than model-agnostic methods [7]
+* Model specific and post-training, and especially Gradient only methods are usually faster to compute than model-agnostic methods <a href="#6">[6]</a>
 * Can be applied on already trained models
 * Visual results that can be overlayed with the input image to quickly spot the important features at a glance
 
 ### Disadvantages
 
-* Some SMs can be highly unreliable and seem to produce inconsistent results with only slight bias addition to the input (Gradient x Input and Integraded Gradients with specific baselines)
+* Some SMs can be highly unreliable and seem to produce inconsistent results with only slight bias addition to the input (Gradient x Input and Integrated Gradients with specific baselines)
 * Integrated Gradients, while sometimes input transformation invariant is still dependent on a good choice for a baseline image to compare to
 * It is difficult to know whether the resulting explanation is correct as they are only analyzed visually and might only look - about right
 * Explanations are for individual predictions and we can make no complete statement about the models performance across the full input space, or the workings of the model as a whole. Aggregating over multiple input sets can relieve this issue to some degree however
