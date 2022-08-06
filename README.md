@@ -11,13 +11,13 @@ The keyword here is **decision making**. A Machine learning model uses a dataset
  </p>
 
 
-With this I hope we are on the same page that knowing whether the predictions your own or used machine learning model can be trusted or not is critical in many applications. That is where explainability techniques come into place. With these we want to be able to take a glance of what might be behind the eventual decision making of our model and what has contributed to a particular prediction to make sure that what the model has learned is for example in line with domain knowledge on what features are important for a prediction.
+With this We hope we are on the same page that knowing whether the predictions your own or used machine learning model can be trusted or not is critical in many applications. That is where explainability techniques come into place. With these we want to be able to take a glance of what might be behind the eventual decision making of our model and what has contributed to a particular prediction to make sure that what the model has learned is for example in line with domain knowledge on what features are important for a prediction.
 
 However, as we all know, not all machine learning applications are critical, take a look at Amazon product recommendations or youtube video suggestions. User tailored recommendations might highly increase the platform use time or lead to higher revenues they are not (at leat under normal circumstances) lifethreatening or lifechanging if the predictions are wrong sometimes, so do we need to look into these as well, or is it just a waste of time?
 
 Well, why stop after finding out more about which input features lead to certain predictions? Using explainability methods one might find particular classes of failure cases and possible input biases, or other problems of the prediction with which one can furhter improve on model performance, or find out cases where the current model shouldn't be applied to because it uses wrong features for its predictions. So, no, it is not a waste of time.
 
-But now, onto the substance... I already mentioned some of the key arguments of why we want to use an explainability method on our machine learning models, but how do they work and what are possible issues with those? In this blog post we will be taking a look at <b>saliency methods</b> for explainability, which is one of the easiest method classes to understand and apply.
+But now, onto the substance... We already mentioned some of the key arguments of why we want to use an explainability method on our machine learning models, but how do they work and what are possible issues with those? In this blog post we will be taking a look at <b>saliency methods</b> for explainability, which is one of the easiest method classes to understand and apply.
 
 ## What are Saliency Methods?
 The word saliency refers to particularly important or prominent and these methods are indeed true to their word meaning, as saliency methods quantitatively rate all input features by how much they contributed, positively or negatively, to producing a particular output. This by itself is fairly abstract, but if we combine all input features in a meaningful way and visualize them, then we can see what parts of our input were responsible for the prediction. This process is very intuitive for images as inputs, and we will continue staying at this particular set of inputs for simplicity for the rest of the blogpost, but saliency is by no means limited to only image applications. So for images we can reconstruct a so called **saliency map** from the rated input vector back to an image where we color the individual pixels by their contribution to the output. Then we can also overlap this result with the original input image to directly find the culprit pixels. Depending on the specific method we can visualize pixels contributing positively and negatively, or only the positive contributions. But more on that later. Here's our first example of an applied saliency method:
@@ -27,6 +27,10 @@ The word saliency refers to particularly important or prominent and these method
  </p>
 
 Well, the first visual impression of the most basic saliency method, also called **Vanilla Gradients** is admittedly a little underwhelming. This example uses an image classification task for various objects and the image pixel brightness shows a particular pixel's positive contribution to the model's correctly predicted object class. So what can we interpret from these images? We can confirm that the model used pixels that align with the objects in the image and can say that the predictions were at leat not made by looking at completely irrelevant image regions. With other methods we can extend this to also contain the negative contributions, so the pixels that were reducing the logit probability of the chosen output class and also produce aggregate contribution regions.
+
+## Why is saliency useful?
+
+Using saliency maps we can find areas a model is influenced by to produce specific class predictions, wich can be very useful to ensure that the prediction is based on the feature we want and not an environmental bias for example. Furthermore it can be used to gain more insight into the model by looking at model failure cases, what features had high attribution that don’t seem to be related to the object in question? When we approach the our model with these considerations in mind we can then think of how we might change the model to avoid bad results in these cases and increase the model's performance. Another nice aspect is that we have no abstract numeric metric score, that can be very difficult to define for complex tasks but instead an heatmap where we can use our visual intuition to confirm the high activation features. Saliency maps **sometimes** allow easy visual and intuitive explanations.
 
 ## Methods
 Different saliency methods fall into 2 broad categories:
@@ -48,12 +52,12 @@ The problem comes from one of the inherent design choises of the neural networks
   <span align="center">Source: <a href="#4">[4]</a></span>
 </p>
 
-All activations that are below zero are cutoff and clamped to zero, so afterwards we have no way of knowing whether the activation was negative or not. This in turns means that we also have no means of accessing these negatively attributing gradients, as they are all set to zero. In the gradient only methods a small gradient or zero means that this activation appears to be completely unimportant, as the gradient magnitude defines the importance in feature space, so our attribution fails to highlight inputs that contribute negatively to the output class. This is called activation saturation.
+All activations that are below zero are cutoff and clamped to zero, so afterwards we have no way of knowing whether the activation was negative or not. This in turns means that we also have no means of accessing these negatively attributing gradients, as they are all set to zero. In the gradient only methods a small gradient or zero means that this activation appears to be completely unimportant, as the gradient magnitude defines the importance in feature space, so our attribution fails to highlight inputs that contribute negatively to the output class. This is called activation saturation [<a href="#6">6</a>, <a href="#6">7</a>].
 
 While there are other activation functions our there that also include some additional non-zero activation (<0) for negative function values, such as **leaky ReLu**, the problem is essentialy still the same, as the attributions are heavily biased towards positive attributions. In some way we need the introduced non-linearity of the model, as otherwise our neural network would only be able to learn linear findings. Hence if we still want to extract some information about these negatively contributing activations we will have to be a bit more creative.
 
 ### Compared Methods
-From the nowadays large zoo of different saliency methods and their derivatives for this blog I settled on giving a short introduction on the most basic and widespread methods. In the following experiment we compared Gradient x Input, Integrated Gradients, and GradCam.
+From the nowadays large zoo of different saliency methods and their derivatives for this blog we settled on giving a short introduction on the most basic and widespread methods. In the following experiment we compared Gradient x Input, Integrated Gradients, and GradCam.
 
 #### Vanilla Gradients
 *DESCRIBE Method*
@@ -72,7 +76,7 @@ From the nowadays large zoo of different saliency methods and their derivatives 
 *List Pros and Cons*
 
 ## A small Experiment: How reliable are these Methods in Practice?
-In this part I wanted to give you an intuition on what can go wrong when simply applying a saliency methods on your model. As mentioned before when we apply our saliency method we are only looking for an explanation of our model on a particular reference image. From a single inference point we can say almost nothing about how our model performs or works on the entirety of the feature space possible input images might look like, and so whatever comes out of our saliency methods needs to always be connected to the input image we provided it. And so in this experiment we take a look at what happens to our expainable, the saliency methods I presented here when we play around with the input images a little.
+In this part we wanted to give you an intuition on what can go wrong when simply applying a saliency methods on your model. As mentioned before when we apply our saliency method we are only looking for an explanation of our model on a particular reference image. From a single inference point we can say almost nothing about how our model performs or works on the entirety of the feature space possible input images might look like, and so whatever comes out of our saliency methods needs to always be connected to the input image we provided it. And so in this experiment we take a look at what happens to our expainable, the saliency methods we presented here when we play around with the input images a little.
 
 The used machine learning model is a multilayer convolutional network with pooling steps in between. After the convolutions we then apply a multilayer perceptron with a single hidden layer for the final classification.
 
@@ -144,3 +148,11 @@ Danqing Liu; November 30, 2017; last accessed on 06.08.22
 Julien de la Bruère-Terreault; 2019; last accessed on 06.08.22
 <a href="https://www.kaggle.com/datasets/drgfreeman/rockpaperscissors">https://www.kaggle.com/datasets/drgfreeman/rockpaperscissors</a>
 
+
+<a id="6">[6]</a> 
+Christoph Molnar; July 12, 2021; last accessed on 06.08.22
+<a href="https://christophm.github.io/interpretable-ml-book/pixel-attribution.html#fn81">https://christophm.github.io/interpretable-ml-book/pixel-attribution.html#fn81</a>
+
+
+<a id="7">[7]</a> 
+Shrikumar, Avanti, Peyton Greenside, and Anshul Kundaje. "Learning important features through propagating activation differences." International conference on machine learning. PMLR, 2017
