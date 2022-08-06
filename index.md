@@ -5,8 +5,8 @@ Nowadays machine learning models are being applied to solve more and more tasks 
 The keyword here is **decision making**. A Machine learning model uses a dataset of values and labels to learn an abstract decision making rule that (in the best case) reflects the true distribution of real world applications. This learned model is then used to perform predictions on data points it might have never seen before or in the training and outputs a prediction. This can be in the form of a segmented image, where the model tried to classify individual pixels, a 'True', or 'False', or a particular credit rating for a potential customer. So whatever the model predicts is then used either directly to facillitate a decision in the real world or might influence a domain expert that might then decide based on what they can deduce from the model or other factors, imagine a doctor here, deciding whether a particular tumor is ill or good natured.
 
 <p align="center">
-  <img src="./images/brock-wegner-pWGUMQSWBwI-unsplash.jpg" width="23.45%">
-  <img src="./images/irwan-iwe-rbDE93-0hHs-unsplash.jpg" width="25%"><br>
+  <img src="./images/brock-wegner-pWGUMQSWBwI-unsplash.jpg" width="46.90%">
+  <img src="./images/irwan-iwe-rbDE93-0hHs-unsplash.jpg" width="50%"><br>
   <span align="center">Sources: <a href="#1">[1]</a> and <a href="#2">[2]</a></span>
  </p>
 
@@ -22,7 +22,7 @@ But now, onto the substance... I already mentioned some of the key arguments of 
 ## What are Saliency Methods?
 The word saliency refers to particularly important or prominent and these methods are indeed true to their word meaning, as saliency methods quantitatively rate all input features by how much they contributed, positively or negatively, to producing a particular output. This by itself is fairly abstract, but if we combine all input features in a meaningful way and visualize them, then we can see what parts of our input were responsible for the prediction. This process is very intuitive for images as inputs, and we will continue staying at this particular set of inputs for simplicity for the rest of the blogpost, but saliency is by no means limited to only image applications. So for images we can reconstruct a so called **saliency map** from the rated input vector back to an image where we color the individual pixels by their contribution to the output. Then we can also overlap this result with the original input image to directly find the culprit pixels. Depending on the specific method we can visualize pixels contributing positively and negatively, or only the positive contributions. But more on that later. Here's our first example of an applied saliency method:
 <p align="center">
-  <img src="./images/Screenshot 2022-08-05 at 21-00-40 1312.6034.pdf.png" width="75%"><br>
+  <img src="./images/Screenshot 2022-08-05 at 21-00-40 1312.6034.pdf.png" width="100%"><br>
   <span align="center">Source: <a href="#3">[3]</a></span>
  </p>
 
@@ -44,7 +44,7 @@ As you could see in the previous example of the Vanilla Gradient method we could
 The problem comes from one of the inherent design choises of the neural networks themselves. While our networks are able to learn even non-linear functions using the intruduced non-linear activation functions attached to each of our layers we can't perfectly backtrack the specific activation values after the calculations were performed. To illustrate where the problem here lies, let's take a look at the activation function we used for this model, **ReLu**.
 
 <p align="center">
-  <img src="./images/relu.png" width="50%"><br>
+  <img src="./images/relu.png" width="100%"><br>
   <span align="center">Source: <a href="#4">[4]</a></span>
 </p>
 
