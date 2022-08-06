@@ -104,10 +104,11 @@ Lastly let's look at what the input pertubation does to a GradCam explanation:
 
 Well, while some of the general shapes still remain, especially in the first and second images, it is clear that the resulting attribution maps are not really aligning with the optically relevant features of the hands in the images. This effect seems to be strongest for the last of the images, where suddenly most of the empty space of the image with only the green background seems to be very important for determining the target class. This clearly should not be the case if the model really used the shape of the hands for its predictions.
 
-## Conclusion
 While the values of the prediction logits might have changed completely, the model still predicted the right class in these instances, our different methods delivered completely different explanation for them. So, in general we can't connect the layout of a saliency map to a particular output class and vice-verca, without carefully selecting our input images and hoping that the model creates a good enough prediction and if we are lucky the saliency map also lines up with the input to strenghten our argument for the correctness of our model.
 
-The results now seem like cherry picking at best and fraudulent at worst. But this illustrated how unreliable these methods can be, and that good, but also bad results for saliency methods need to be taken with a grain of salt.
+## Conclusion
+
+The results seem like cherry picking at best and fraudulent at worst. But this illustrated how unreliable these methods can be, and that good, but also bad results for saliency methods need to be taken with a grain of salt.
 
 It is important to note that these methods can still be a good indicator on what kind of features the model uses for prediction, however users need to be aware of the existing shortcomings of these techniques and not put too much confidence into a single basket. This also demonstrates the fragility of the **'learned'** concept for a convolutional neural network, at least this model apparently didn't learn of the concepts of these different symbols visible in the training dataset, but learned a fragile notion of classes from the images pixels.
 
