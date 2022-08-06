@@ -72,8 +72,23 @@ From the nowadays large zoo of different saliency methods and their derivatives 
 *DESCRIBE Method*
 
 
-## Pros and Cons of Saliency Methods
-*List Pros and Cons*
+## Advantages and Disadvantages of Saliency Methods
+
+### Advantages:
+
+* Only require gradients in the model
+* Can be used without or almost without modifying the ML model we want to generate explanations for
+* Model specific and post-training, and especially Gradient only methods are usually faster to compute than model-agnostic methods [7]
+* Can be applied on already trained models
+* Visual results that can be overlayed with the input image to quickly spot the important features at a glance
+
+### Disadvantages
+
+* Some SMs can be highly unreliable and seem to produce inconsistent results with only slight bias addition to the input (IxG, IG with specific baselines)
+* IG, while sometimes input transformation invariant is still dependent on a good choice for a baseline image to compare to
+* It is difficult to know whether the resulting explanation is correct as they are only analyzed visually and might only look - about right
+* Explanations are for individual predictions and we can make no complete statement about the models performance across the full input space, or the workings of the model as a whole. Aggregating over multiple input sets can relieve this issue to some degree however
+
 
 ## A small Experiment: How reliable are these Methods in Practice?
 In this part we wanted to give you an intuition on what can go wrong when simply applying a saliency methods on your model. As mentioned before when we apply our saliency method we are only looking for an explanation of our model on a particular reference image. From a single inference point we can say almost nothing about how our model performs or works on the entirety of the feature space possible input images might look like, and so whatever comes out of our saliency methods needs to always be connected to the input image we provided it. And so in this experiment we take a look at what happens to our expainable, the saliency methods we presented here when we play around with the input images a little.
