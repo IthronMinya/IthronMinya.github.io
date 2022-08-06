@@ -84,8 +84,8 @@ From the nowadays large zoo of different saliency methods and their derivatives 
 
 ### Disadvantages
 
-* Some SMs can be highly unreliable and seem to produce inconsistent results with only slight bias addition to the input (IxG, IG with specific baselines)
-* IG, while sometimes input transformation invariant is still dependent on a good choice for a baseline image to compare to
+* Some SMs can be highly unreliable and seem to produce inconsistent results with only slight bias addition to the input (Gradient x Input and Integraded Gradients with specific baselines)
+* Integrated Gradients, while sometimes input transformation invariant is still dependent on a good choice for a baseline image to compare to
 * It is difficult to know whether the resulting explanation is correct as they are only analyzed visually and might only look - about right
 * Explanations are for individual predictions and we can make no complete statement about the models performance across the full input space, or the workings of the model as a whole. Aggregating over multiple input sets can relieve this issue to some degree however
 
