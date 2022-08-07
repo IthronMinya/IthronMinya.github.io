@@ -69,7 +69,7 @@ The problem comes from one of the inherent design choises of the neural networks
  This means we have an unresolved ambiguity for all activations that were below zero or zero during backpropagation. Vanilla Gradients resolves this simply as follows:
  
  <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?\bg{white}\frac{\delta&space;f}{\delta&space;X_{n}}&space;=&space;\frac{\delta&space;f}{\delta&space;X_{n&space;&plus;&space;1}}&space;*&space;I(X_n&space;>&space;0)&space;" title="https://latex.codecogs.com/svg.image?\bg{white}\frac{\delta f}{\delta X_{n}} = \frac{\delta f}{\delta X_{n + 1}} * I(X_n > 0) " />
+  <img src="https://latex.codecogs.com/svg.image?\bg{white}\frac{\delta&space;f}{\delta&space;X_{n}}&space;=&space;\frac{\delta&space;f}{\delta&space;X_{n&space;&plus;&space;1}}&space;\cdot&space;I(X_n&space;>&space;0)&space;" title="https://latex.codecogs.com/svg.image?\bg{white}\frac{\delta f}{\delta X_{n}} = \frac{\delta f}{\delta X_{n + 1}} \cdot I(X_n > 0) " />
 </p>
 
 Where I is the element-wise indicator function, which is zero where the activation at the lower layer was negative, and one where it is positive or zero.
