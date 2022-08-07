@@ -67,7 +67,7 @@ The Vanilla Gradients method works with three simple steps. First we make a forw
 <p align="center">
   <img src="https://latex.codecogs.com/svg.image?\bg{white}E_{GRAD}(I_0)&space;=&space;\frac{\delta&space;S_a}{\delta&space;I}|_{I&space;=&space;I_a}" title="https://latex.codecogs.com/svg.image?\bg{white}E_{GRAD}(I_0) = \frac{\delta S_a}{\delta I}|_{I = I_a}" />
 </p>
-Here S <sub>a</sub> is the prediction score for output class a.
+Here S<sub>a</sub> is the prediction score for output class a.
 We then visualize these gradients as a normalized heatmap to see the pixel attributions.
 
 #### Gradient x Input
