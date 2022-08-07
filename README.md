@@ -37,21 +37,21 @@ Using saliency maps we can find areas a model is influenced by to produce specif
 Different saliency methods fall into 2 broad categories:
 * **Gradient-only**:
 This method class only uses gradient magnitude as a measure of importance in feature space, so large activations would indicate a high importance on a specific output category. Here, changes in specific pixel’s values would heavily influence the prediction probabilities and thus the predicted output category.
-Methods in this category are Vanilla Gradients, Gradients x Input, and GradCam.
+Methods in this category are Vanilla Gradients, Gradients x Input, and Grad-CAM.
 
 * **Path-attribution methods**:
 Different form the gradient only methods, path-attribution methods compare the input image and its backpropagated gradients to a reference image (baseline) to construct pixel attribution. Individual pixel importance comes from the average difference between classification scores of the input image and interpolated baseline values that are attributed back to individual input pixels.
 Intuitively a black baseline image would represent the impact a pixel has on the prediction, by looking at various degrees of brightness of it and finally its absense. This method class contains model specific-methods such as Integrated Gradients, as well as model-agnostic methods such as LIME and SHAP.
 
 ### Compared Methods
-From the nowadays large zoo of different saliency methods and their derivatives for this blog we settled on giving a short introduction on the most basic and widespread methods. In the following experiment we compared Gradient x Input, Integrated Gradients, and GradCam.
+From the nowadays large zoo of different saliency methods and their derivatives for this blog we settled on giving a short introduction on the most basic and widespread methods. In the following experiment we compared Gradient x Input, Integrated Gradients, and Grad-CAM.
 
 #### Vanilla Gradients
 The Vanilla Gradients <a href="#8">[8]</a> method works with three simple steps. First we make a forward pass with our input image. Then perform the backward pass to the input layer, for which we normally wouldn't compute the gradients for, but these are exactly what we are looking for. The gradients give us an estimate of pixel saliency because they are calculated with respect to the predicted output class, and are hence contributing to its prediction probability.
 <p align="center">
   <img src="https://latex.codecogs.com/svg.image?\bg{white}E_{GRAD}(I_0)&space;=&space;\frac{\delta&space;S_a}{\delta&space;I}|_{I&space;=&space;I_a}" title="https://latex.codecogs.com/svg.image?\bg{white}E_{GRAD}(I_0) = \frac{\delta S_a}{\delta I}|_{I = I_a}" />
 </p>
-Here S<sub>a</sub> is the prediction score for output class a.
+Here S <sub>a</sub> is the prediction score for output class a.
 We then visualize these gradients as a normalized heatmap to see the pixel attributions.
 
 ##### The Problem with Vanilla Gradient
@@ -81,9 +81,16 @@ Gradient x Input is a simple extention to the original Vanilla Gradients approac
 #### Integrated Gradients
 *DESCRIBE Method*
 
-#### GradCam
-*DESCRIBE Method*
+#### Grad-CAM
+Grad-CAM stands for Gradient-weighted Class Activation Map and a visual explanation for the decision making of convolutional neural networks. Different from the previous methods the gradients in Grad-CAM are not backpropagated to the input layer, but rather only to the last convolutional layer of our model.
 
+First of all we perform a usual forward pass with our input image and use the prediction class score for backpropagation while we set the scores for all the other classes to zero. Then we backpropagate the gradient with respect to our target class back to the last convolution layer, before the fully connected multilayer perceptron part of the network. We then average the gradient values across the different channels of the convolution layer to compute the pooled weight coefficients.
+
+<p align="center">
+  <img src="https://latex.codecogs.com/svg.image?\bg{white}\alpha_k^a&space;\frac{1}{Z}\sum_i\sum_j\frac{\delta&space;S_a}{\delta&space;X^{ij}_k}" title="https://latex.codecogs.com/svg.image?\bg{white}\alpha_k^a \frac{1}{Z}\sum_i\sum_j\frac{\delta S_a}{\delta X^{ij}_k}" />
+</p>
+
+Where i and j refer to the width and height of the convolution layer. With this we calculate average of the weighted feature map with the layer activations for this layer and apply the ReLu function to get the averaged positive attributions for our output class. After using normalization we can then visualize this coarse activation map and identify regions of high contribution within our input image. By upsampling we can also spread the Grad-CAM attributions to fit the dimensions of the input image to create an overlay map.
 
 ## Advantages and Disadvantages of Saliency Methods
 
@@ -153,7 +160,7 @@ First up, here are some of the results we can obtain from our trained network on
   <img src="./images/collection1.png" width="100%"><br>
  </p>
 
-Here we can see that the model seems to base its prediction on different pixel attribution patterns, for example clearly visible for the scissors images, that seem to have a clearly different pattern from the rock images. GradCam does so very prominently.
+Here we can see that the model seems to base its prediction on different pixel attribution patterns, for example clearly visible for the scissors images, that seem to have a clearly different pattern from the rock images. Grad-CAM does so very prominently.
 
 But now, let's increase the bias of the images. We are only adding a constant number on each channel of the input image, this makes the content for us visually brighter, but doesn't affect the relative pixel color differences. For us each channel value is capped at 255 as maximum brightness, so the visual representation is capped at that value, but the input for the model doesn't know that, so we can have inference anyways. So let's see how the different methods perform:
 
@@ -171,7 +178,7 @@ For Integrated Gradients we took a look at the effects of the input shift using 
 
 From these images we can see that the black baseline image resulted in the best visual results without the shift it was the most sensitive to the shift once it was applied. The random and white baselines didn't change extremly with the white baseline being the most stable of the two, but this is can **only** be said for this particular set of input images and our used model. Under different circumstances choosing a fitting baseline image is a **hyperparameter** for Integrated Gradients and each of them might show different characteristics with varying input pertubations.
 
-Lastly let's look at what the input pertubation does to a GradCam explanation:
+Lastly let's look at what the input pertubation does to a Grad-CAM explanation:
 
 <p align="center">
   <img src="./images/collection4.png" width="100%"><br>
