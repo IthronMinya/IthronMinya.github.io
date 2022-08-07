@@ -73,12 +73,12 @@ The problem comes from one of the inherent design choises of the neural networks
 </p>
 
 Where I is the element-wise indicator function, which is zero where the activation at the lower layer was negative, and one where it is positive or zero.
-Hence, all activations that are below zero are cutoff and clamped to zero. This in turns means that we also have no means of accessing these negatively attributing gradients In the gradient only methods a small gradient or zero means that this activation appears to be completely unimportant, as the gradient magnitude defines the importance in feature space, so our attribution fails to highlight inputs that contribute negatively to the output class. This is called activation saturation [<a href="#6">6</a>, <a href="#6">7</a>].
+Hence, all activations that are below zero are cutoff and clamped to zero. Since in the gradient only methods a small gradient or zero means that this activation appears to be completely unimportant, as the gradient magnitude defines the importance in feature space, so our attribution fails to highlight inputs that contribute negatively to the output class. This is called activation saturation [<a href="#6">6</a>, <a href="#6">7</a>].
 
 While there are other activation functions our there that also include some additional non-zero activation (<0) for negative function values, such as **leaky ReLu**, the problem is essentialy still the same, as the attributions are heavily biased towards positive attributions. In some way we need the introduced non-linearity of the model, as otherwise our neural network would only be able to learn linear findings.
 
 #### Gradient x Input
-Gradient x Input is a simply extention to the original Vanilla Gradients approach 
+Gradient x Input is a simple extention to the original Vanilla Gradients approach where we interpret the computed gradients on the input features as importance coefficients to the input values. Instead of looking at these coefficients by themselves we now element-wise multiply the input values with their respective gradients and use that as our new saliency map. 
 
 #### Integrated Gradients
 *DESCRIBE Method*
