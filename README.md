@@ -64,9 +64,9 @@ From the nowadays large zoo of different saliency methods and their derivatives 
 
 #### Vanilla Gradients
 The Vanilla Gradients method works with three simple steps. First we make a forward pass with our input image. Then perform the backward pass to the input layer, for which we normally wouldn't compute the gradients for, but these are exactly what we are looking for. The gradients give us an estimate of pixel saliency because they are calculated with respect to the predicted output class, and are hence contributing to its prediction probability.
-
-![equation](https://latex.codecogs.com/svg.image?E_%7BGRAD%7D(I_0)%20=%20%5Cfrac%7B%5Cdelta%20S_a%7D%7B%5Cdelta%20I%7D%7C_%7BI%20=%20I_a%7D)
-
+<p align="center">
+  ![equation](https://latex.codecogs.com/svg.image?%5Cbg%7Bwhite%7DE_%7BGRAD%7D(I_0)%20=%20%5Cfrac%7B%5Cdelta%20S_a%7D%7B%5Cdelta%20I%7D%7C_%7BI%20=%20I_a%7D)
+</p>
 Here S<sub>a</sub> is the prediction score for output class a.
 We then visualize these gradients as a normalized heatmap to see the pixel attributions.
 
