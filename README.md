@@ -45,20 +45,6 @@ Methods in this category are Vanilla Gradients, Gradients x Input, and GradCam.
 Different form the gradient only methods, path-attribution methods compare the input image and its backpropagated gradients to a reference image (baseline) to construct pixel attribution. Individual pixel importance comes from the average difference between classification scores of the input image and interpolated baseline values that are attributed back to individual input pixels.
 Intuitively a black baseline image would represent the impact a pixel has on the prediction, by looking at various degrees of brightness of it and finally its absense. This method class contains model specific-methods such as Integrated Gradients, as well as model-agnostic methods such as LIME and SHAP.
 
-### The Problem with Vanilla Gradient
-As you could see in the previous example of the Vanilla Gradient method we could only see various degrees of positively contributing pixels based on their brightness, but these positive attributions are only one hand of the medal. In the final layer of our model we don't predict the prediction class as a single output, but we rather have logits on the output layer that indicate the probability of the current output being a specific output class instead. So the final prediction of our model is simply the class with the largest probability on this last layer of our model. While positively attributing pixels increase these specific values, there are also pixels that decrease them. These negative attributing pixels have as much of an effect on the final prediction as the positively contributing ones, but why, like can't we just visualize them?
-
-The problem comes from one of the inherent design choises of the neural networks themselves. While our networks are able to learn even non-linear functions using the intruduced non-linear activation functions attached to each of our layers, we can't perfectly backtrack the specific activation values after the calculations were performed. To illustrate where the problem here lies, let's take a look at the activation function we used for our model in the following experiment, **ReLu**.
-
-<p align="center">
-  <img src="./images/relu.png" width="100%"><br>
-  <span align="center">Source: <a href="#4">[4]</a></span>
-</p>
-
-All activations that are below zero are cutoff and clamped to zero, so afterwards we have no way of knowing whether the activation was negative or not. This in turns means that we also have no means of accessing these negatively attributing gradients, as they are all set to zero. In the gradient only methods a small gradient or zero means that this activation appears to be completely unimportant, as the gradient magnitude defines the importance in feature space, so our attribution fails to highlight inputs that contribute negatively to the output class. This is called activation saturation [<a href="#6">6</a>, <a href="#6">7</a>].
-
-While there are other activation functions our there that also include some additional non-zero activation (<0) for negative function values, such as **leaky ReLu**, the problem is essentialy still the same, as the attributions are heavily biased towards positive attributions. In some way we need the introduced non-linearity of the model, as otherwise our neural network would only be able to learn linear findings. Hence if we still want to extract some information about these negatively contributing activations we will have to be a bit more creative.
-
 ### Compared Methods
 From the nowadays large zoo of different saliency methods and their derivatives for this blog we settled on giving a short introduction on the most basic and widespread methods. In the following experiment we compared Gradient x Input, Integrated Gradients, and GradCam.
 
@@ -69,6 +55,27 @@ The Vanilla Gradients method works with three simple steps. First we make a forw
 </p>
 Here S<sub>a</sub> is the prediction score for output class a.
 We then visualize these gradients as a normalized heatmap to see the pixel attributions.
+
+##### The Problem with Vanilla Gradient
+As you could see in the previous example of the Vanilla Gradient method we could only see various degrees of positively contributing pixels based on their brightness, but these positive attributions are only one hand of the medal. In the final layer of our model we don't predict the prediction class as a single output, but we rather have logits on the output layer that indicate the probability of the current output being a specific output class instead. So the final prediction of our model is simply the class with the largest probability on this last layer of our model. While positively attributing pixels increase these specific values, there are also pixels that decrease them. These negative attributing pixels have as much of an effect on the final prediction as the positively contributing ones, but why, like can't we just visualize them?
+
+The problem comes from one of the inherent design choises of the neural networks themselves. While our networks are able to learn even non-linear functions using the intruduced non-linear activation functions attached to each of our layers, we can't perfectly backtrack the specific activation values after the calculations were performed. To illustrate where the problem here lies, let's take a look at the activation function we used for our model in the following experiment, **ReLu: X<sub>n+1</sub>(x)=max(0,X<sub>n</sub>)** .
+
+<p align="center">
+  <img src="./images/relu.png" width="100%"><br>
+  <span align="center">Source: <a href="#4">[4]</a></span>
+</p>
+
+ This means we have an unresolved ambiguity for all activations that were below zero or zero during backpropagation. Vanilla Gradients resolves this simply as follows:
+ 
+ <p align="center">
+  <img src="https://latex.codecogs.com/svg.image?\bg{white}\frac{\delta&space;f}{\delta&space;X_{n}}&space;=&space;\frac{\delta&space;f}{\delta&space;X_{n&space;&plus;&space;1}}&space;*&space;I(X_n&space;>&space;0)&space;" title="https://latex.codecogs.com/svg.image?\bg{white}\frac{\delta f}{\delta X_{n}} = \frac{\delta f}{\delta X_{n + 1}} * I(X_n > 0) " />
+</p>
+
+Where I is the element-wise indicator function, which is zero where the activation at the lower layer was negative, and one where it is positive or zero.
+Hence, all activations that are below zero are cutoff and clamped to zero. This in turns means that we also have no means of accessing these negatively attributing gradients In the gradient only methods a small gradient or zero means that this activation appears to be completely unimportant, as the gradient magnitude defines the importance in feature space, so our attribution fails to highlight inputs that contribute negatively to the output class. This is called activation saturation [<a href="#6">6</a>, <a href="#6">7</a>].
+
+While there are other activation functions our there that also include some additional non-zero activation (<0) for negative function values, such as **leaky ReLu**, the problem is essentialy still the same, as the attributions are heavily biased towards positive attributions. In some way we need the introduced non-linearity of the model, as otherwise our neural network would only be able to learn linear findings.
 
 #### Gradient x Input
 *DESCRIBE Method*
