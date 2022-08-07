@@ -7,8 +7,8 @@ Major prediction error of the model in a real-world scenario might unfairly deny
 The keyword here is **decision making**. A Machine learning model uses a dataset of values and labels to learn an abstract decision-making rule that (in the best case) reflects the true distribution of the real-world problem. This learned model is then used to perform predictions on data points it has never seen before in the training and outputs a prediction. This can be in the form of a segmented image, where the model tried to classify individual pixels, a 'True', or 'False', or a particular credit rating for a potential customer. So whatever the model predicts is then used either directly to facilitate a decision in the real world or might influence a domain expert that might then decide based on what they can deduce from the model and other factors. Imagine a doctor here deciding whether a particular tumor is ill or good-natured.
 
 <p align="center">
-  <img src="./images/brock-wegner-pWGUMQSWBwI-unsplash.jpg" width="46.90%">
-  <img src="./images/irwan-iwe-rbDE93-0hHs-unsplash.jpg" width="50%"><br>
+  <img src="./images/brock-wegner-pWGUMQSWBwI-unsplash.jpg" width="23.4%">
+  <img src="./images/irwan-iwe-rbDE93-0hHs-unsplash.jpg" width="25%"><br>
   <span align="center">Sources: <a href="#1">[1]</a> and <a href="#2">[2]</a></span>
  </p>
 
