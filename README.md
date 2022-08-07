@@ -82,7 +82,7 @@ Gradient x Input <a href="#10">[10]</a> is a simple extension to the original Va
 Integrated Gradients <a href="#11">[11]</a> goes one step further than using just the available pixel-wise gradients during backpropagation. It uses an average gradient value computed from the gradients of interpolated images between our original input and a baseline image. As already mentioned in the introduction, Integrated Gradient and a black baseline measures the impact of pixels by looking at various degrees of influence in the form of brightness multiplied by the pixel value.
 
 <p align="center">
-  <img src="./images/output_9tmBGdnHAupk_0.png" width="200%"><br>
+  <img src="./images/output_9tmBGdnHAupk_0.png" width="100%"><br>
   <span align="center">Source: <a href="#9">[9]</a></span>
 </p>
 
