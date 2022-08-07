@@ -87,7 +87,7 @@ Grad-CAM stands for Gradient-weighted Class Activation Map and a visual explanat
 First of all we perform a usual forward pass with our input image and use the prediction class score for backpropagation while we set the scores for all the other classes to zero. Then we backpropagate the gradient with respect to our target class back to the last convolution layer, before the fully connected multilayer perceptron part of the network. We then average the gradient values across the different channels of the convolution layer to compute the pooled weight coefficients.
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?\bg{white}\alpha_k^a&space;\frac{1}{Z}\sum_i\sum_j\frac{\delta&space;S_a}{\delta&space;X^{ij}_k}" title="https://latex.codecogs.com/svg.image?\bg{white}\alpha_k^a \frac{1}{Z}\sum_i\sum_j\frac{\delta S_a}{\delta X^{ij}_k}" />
+  <img src="https://latex.codecogs.com/svg.image?\bg{white}\alpha_k^a&space;=&space;\frac{1}{Z}\sum_i\sum_j\frac{\delta&space;S_a}{\delta&space;X^{ij}_k}" title="https://latex.codecogs.com/svg.image?\bg{white}\alpha_k^a = \frac{1}{Z}\sum_i\sum_j\frac{\delta S_a}{\delta X^{ij}_k}" />
 </p>
 
 Where i and j refer to the width and height of the convolution layer. With this we calculate average of the weighted feature map with the layer activations for this layer and apply the ReLu function to get the averaged positive attributions for our output class. After using normalization we can then visualize this coarse activation map and identify regions of high contribution within our input image. By upsampling we can also spread the Grad-CAM attributions to fit the dimensions of the input image to create an overlay map.
