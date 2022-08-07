@@ -79,8 +79,13 @@ While there are other activation functions our there that also include some addi
 Gradient x Input is a simple extention to the original Vanilla Gradients approach where we interpret the computed gradients on the input features as importance coefficients to the input values. Instead of looking at these coefficients by themselves we now element-wise multiply the input values with their respective gradients and use that as our new saliency map. 
 
 #### Integrated Gradients
-*DESCRIBE Method*
+Integrated Gradients goes one step further than using just the available pixel-wise gradients during backpropagation. It uses an average gradient value computed from the gradients of interpolated images between our original input and a baseline image. As already mentioned in the introduction, Integrated Gradient and a black baseline measures the impact of pixels by looking at various degrees of influence in the form of brightness multiplied on the pixel value. This intuitively means that we are averaging the gradients of images with the pixel, without the pixel and various pixel brightnesses in between to estimate the importance of this particular pixel on the predicted output class. This objective can be expressed by:
 
+<p align="center">
+  <img src="https://latex.codecogs.com/svg.image?\bg{white}IG_i(x)&space;=&space;(x_i&space;-&space;x'_i)&space;\cdot&space;\int^1_{\alpha&space;=&space;0}\frac{\partial&space;F(x'&space;-&space;\alpha&space;\cdot(x&space;-&space;x'))}{\partial&space;x_i}" title="https://latex.codecogs.com/svg.image?\bg{white}IG_i(x) = (x_i - x'_i) \cdot \int^1_{\alpha = 0}\frac{\partial F(x' - \alpha \cdot(x - x'))}{\partial x_i}" />
+</p>
+
+Where i refers to a single feature, x to the input and x' to the baseline.
 #### Grad-CAM
 Grad-CAM stands for Gradient-weighted Class Activation Map and a visual explanation for the decision making of convolutional neural networks. Different from the previous methods the gradients in Grad-CAM are not backpropagated to the input layer, but rather only to the last convolutional layer of our model.
 
