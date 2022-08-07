@@ -82,7 +82,7 @@ Gradient x Input is a simple extention to the original Vanilla Gradients approac
 Integrated Gradients goes one step further than using just the available pixel-wise gradients during backpropagation. It uses an average gradient value computed from the gradients of interpolated images between our original input and a baseline image. As already mentioned in the introduction, Integrated Gradient and a black baseline measures the impact of pixels by looking at various degrees of influence in the form of brightness multiplied on the pixel value.
 
 <p align="center">
-  <img src="./images/output_9tmBGdnHAupk_0.png" width="150%"><br>
+  <img src="./images/output_9tmBGdnHAupk_0.png" width="200%"><br>
   <span align="center">Source: <a href="#9">[9]</a></span>
 </p>
 
