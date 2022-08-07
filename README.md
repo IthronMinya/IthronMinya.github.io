@@ -95,7 +95,7 @@ This intuitively means that we are averaging the gradients of images with the pi
 Where i refers to a feature, x to the input and x' to the baseline. However since computing a definitive integral is not always numerically costly and computationally costly we use a numeric approximation instead, defined as follows:
 
 <p align="center">
-  <img src="https://latex.codecogs.com/svg.image?\bg{white}IG_i(x)&space;=&space;(x_i&space;-&space;x'_i)&space;\cdot&space;\frac{1}{m}&space;\cdot&space;\sum^m_{k&space;=&space;1}\frac{\partial&space;F(x'&space;-&space;\frac{k}{m}&space;\cdot(x&space;-&space;x'))}{\partial&space;x_i}" title="https://latex.codecogs.com/svg.image?\bg{white}IG_i(x) = (x_i - x'_i) \cdot \frac{1}{m} \cdot \sum^m_{k = 1}\frac{\partial F(x' - \frac{k}{m} \cdot(x - x'))}{\partial x_i}" />
+  <img src="https://latex.codecogs.com/svg.image?\bg{white}IG_i^{approx}(x)&space;=&space;(x_i&space;-&space;x'_i)&space;\cdot&space;\frac{1}{m}&space;\cdot&space;\sum^m_{k&space;=&space;1}\frac{\partial&space;F(x'&space;-&space;\frac{k}{m}&space;\cdot(x&space;-&space;x'))}{\partial&space;x_i}" title="https://latex.codecogs.com/svg.image?\bg{white}IG_i^{approx}(x) = (x_i - x'_i) \cdot \frac{1}{m} \cdot \sum^m_{k = 1}\frac{\partial F(x' - \frac{k}{m} \cdot(x - x'))}{\partial x_i}" />
 </p>
 
 where m is the number of steps in the Riemann sum approximation of the integral.
