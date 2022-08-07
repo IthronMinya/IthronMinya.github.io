@@ -76,10 +76,10 @@ Hence, all activations that are below zero are cut off and clamped to zero. Sinc
 While there are other activation functions out there that also include some additional non-zero activation (<0) for negative function values, such as **leaky ReLu**, the problem is essentially still the same, as the attributions are heavily biased towards positive attributions. In some way, we need the introduced non-linearity of the model, as otherwise, our neural network would only be able to learn linear findings.
 
 #### Gradient x Input
-Gradient x Input is a simple extension to the original Vanilla Gradients approach where we interpret the computed gradients on the input features as importance-coefficients to the input values. Instead of looking at these coefficients by themselves we now element-wise multiply the input values with their respective gradients and use that as our new saliency map. 
+Gradient x Input <a href="#10">[10]</a> is a simple extension to the original Vanilla Gradients approach where we interpret the computed gradients on the input features as importance-coefficients to the input values. Instead of looking at these coefficients by themselves we now element-wise multiply the input values with their respective gradients and use that as our new saliency map. 
 
 #### Integrated Gradients
-Integrated Gradients goes one step further than using just the available pixel-wise gradients during backpropagation. It uses an average gradient value computed from the gradients of interpolated images between our original input and a baseline image. As already mentioned in the introduction, Integrated Gradient and a black baseline measures the impact of pixels by looking at various degrees of influence in the form of brightness multiplied by the pixel value.
+Integrated Gradients <a href="#11">[11]</a> goes one step further than using just the available pixel-wise gradients during backpropagation. It uses an average gradient value computed from the gradients of interpolated images between our original input and a baseline image. As already mentioned in the introduction, Integrated Gradient and a black baseline measures the impact of pixels by looking at various degrees of influence in the form of brightness multiplied by the pixel value.
 
 <p align="center">
   <img src="./images/output_9tmBGdnHAupk_0.png" width="200%"><br>
@@ -102,7 +102,7 @@ where m is the number of steps in the Riemann sum approximation of the integral.
 This once again gives us an attribution coefficient for each input feature that we can then use to create a normalized heatmap again, similar to the previous methods.
 
 #### Grad-CAM
-Grad-CAM stands for Gradient-weighted Class Activation Map and is a visual explanation for the decision-making of convolutional neural networks. Different from the previous methods the gradients in Grad-CAM are not backpropagated to the input layer, but rather only to the last convolutional layer of our model.
+Grad-CAM <a href="#12">[12]</a> stands for Gradient-weighted Class Activation Map and is a visual explanation for the decision-making of convolutional neural networks. Different from the previous methods the gradients in Grad-CAM are not backpropagated to the input layer, but rather only to the last convolutional layer of our model.
 
 First of all, we perform a usual forward pass with our input image and use the prediction class score for backpropagation while we set the scores for all the other classes to zero. Then we backpropagate the gradient with respect to our target class back to the last convolution layer, before the fully connected multilayer perceptron part of the network. We then average the gradient values across the different channels of the convolution layer to compute the pooled weight coefficients.
 
@@ -172,7 +172,7 @@ The used machine learning model is a multilayer convolutional network with pooli
         return self.network(xb)
 ```
 
-This network has then been trained on a Kaggle dataset for classifying images of hand symbols for the game, **'Rock, Paper, Scissors'** <a href="#5">[5]</a>. The dataset contains a total of 2188 images corresponding to the 'Rock' (726 images), 'Paper' (710 images), and 'Scissors' (752 images) hand gestures and was split in a 70/20/10 ratio between a training-, validation-, and test dataset. It was trained for 30 Epochs until we reached 96% accuracy on the validation dataset using gradient descent as an optimizer for this experiment.
+This network has then been trained on a Kaggle dataset for classifying images of hand symbols for the game, **'Rock, Paper, Scissors'** <a href="#5">[5]</a>. The dataset contains a total of 2188 images corresponding to the 'Rock' (726 images), 'Paper' (710 images), and 'Scissors' (752 images) hand gestures and was split in a 70/20/10 ratio between a training-, validation-, and test dataset. It was trained for 30 Epochs until we reached 96% accuracy on the validation dataset using gradient descent as an optimizer for this experiment. The results for Gradients x Inputs and Integrated gradients were generated with the captum package package for python <a href="#13">[13]</a> and the implementation for Grad-Cam based this <a href="#14">tutorial [14]</a> and adapted to our model.
 
 First up, here are some of the results we can obtain from our trained network on some of the test dataset's images without any changes to the original images.
 
@@ -245,9 +245,31 @@ Christoph Molnar; July 12, 2021; last accessed on 06.08.22
 <a id="7">[7]</a> 
 Shrikumar, Avanti, Peyton Greenside, and Anshul Kundaje. "Learning important features through propagating activation differences." International conference on machine learning. PMLR, 2017
 
+
 <a id="8">[8]</a> 
 Simonyan, Karen, Andrea Vedaldi, and Andrew Zisserman. "Deep inside convolutional networks: Visualising image classification models and saliency maps." arXiv preprint arXiv:1312.6034 (2013)
+
 
 <a id="9">[9]</a> 
 Image source; last accessed on 07.08.22
 <a href="https://www.tensorflow.org/tutorials/interpretability/integrated_gradients">https://www.tensorflow.org/tutorials/interpretability/integrated_gradients</a>
+
+
+<a id="10">[10]</a> 
+Shrikumar, Avanti, et al. "Not just a black box: Learning important features through propagating activation differences." arXiv preprint arXiv:1605.01713 (2016).
+
+
+<a id="11">[11]</a> 
+Sundararajan, Mukund, Ankur Taly, and Qiqi Yan. "Axiomatic attribution for deep networks." International conference on machine learning. PMLR, 2017.
+
+
+<a id="12">[12]</a> 
+Selvaraju, Ramprasaath R., et al. "Grad-cam: Visual explanations from deep networks via gradient-based localization." Proceedings of the IEEE international conference on computer vision. 2017.
+
+<a id="13">[13]</a> 
+Python package for IG and IxG; last accessed on 07.08.22
+<a href="https://captum.ai/">https://captum.ai/</a>
+
+<a id="14">[14]</a> 
+Sunny Solanki; March 17, 2022; last accessed on 07.08.22
+<a href="https://coderzcolumn.com/tutorials/artificial-intelligence/pytorch-grad-cam">https://coderzcolumn.com/tutorials/artificial-intelligence/pytorch-grad-cam</a>
