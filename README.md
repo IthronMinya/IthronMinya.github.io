@@ -60,7 +60,7 @@ As you could see in the previous example of the Vanilla Gradient method we could
 The problem comes from one of the inherent design choices of the neural networks themselves. While our networks can learn even non-linear functions using the introduced non-linear activation functions attached to each of our layers, we can't perfectly backtrack the specific activation values after the calculations were performed. To illustrate where the problem here lies, let's take a look at the activation function we used for our model in the following experiment, **ReLu: X<sub>n+1</sub>(x)=max(0,X<sub>n</sub>)** .
 
 <p align="center">
-  <img src="./images/relu.png" width="75%"><br>
+  <img src="./images/relu.png" width="50%"><br>
   <span align="center">Source: <a href="#4">[4]</a></span>
 </p>
 
