@@ -79,13 +79,28 @@ While there are other activation functions our there that also include some addi
 Gradient x Input is a simple extention to the original Vanilla Gradients approach where we interpret the computed gradients on the input features as importance coefficients to the input values. Instead of looking at these coefficients by themselves we now element-wise multiply the input values with their respective gradients and use that as our new saliency map. 
 
 #### Integrated Gradients
-Integrated Gradients goes one step further than using just the available pixel-wise gradients during backpropagation. It uses an average gradient value computed from the gradients of interpolated images between our original input and a baseline image. As already mentioned in the introduction, Integrated Gradient and a black baseline measures the impact of pixels by looking at various degrees of influence in the form of brightness multiplied on the pixel value. This intuitively means that we are averaging the gradients of images with the pixel, without the pixel and various pixel brightnesses in between to estimate the importance of this particular pixel on the predicted output class. This objective can be expressed by:
+Integrated Gradients goes one step further than using just the available pixel-wise gradients during backpropagation. It uses an average gradient value computed from the gradients of interpolated images between our original input and a baseline image. As already mentioned in the introduction, Integrated Gradient and a black baseline measures the impact of pixels by looking at various degrees of influence in the form of brightness multiplied on the pixel value.
+
+<p align="center">
+  <img src="./images/output_9tmBGdnHAupk_0.png" width="100%"><br>
+  <span align="center">Source: <a href="#9">[9]</a></span>
+</p>
+
+This intuitively means that we are averaging the gradients of images with the pixel, without the pixel and various pixel brightnesses in between to estimate the importance of this particular pixel on the predicted output class. This objective can be expressed by:
 
 <p align="center">
   <img src="https://latex.codecogs.com/svg.image?\bg{white}IG_i(x)&space;=&space;(x_i&space;-&space;x'_i)&space;\cdot&space;\int^1_{\alpha&space;=&space;0}\frac{\partial&space;F(x'&space;-&space;\alpha&space;\cdot(x&space;-&space;x'))}{\partial&space;x_i}" title="https://latex.codecogs.com/svg.image?\bg{white}IG_i(x) = (x_i - x'_i) \cdot \int^1_{\alpha = 0}\frac{\partial F(x' - \alpha \cdot(x - x'))}{\partial x_i}" />
 </p>
 
-Where i refers to a single feature, x to the input and x' to the baseline.
+Where i refers to a feature, x to the input and x' to the baseline. However since computing a definitive integral is not always numerically costly and computationally costly we use a numeric approximation instead, defined as follows:
+
+<p align="center">
+  <img src="https://latex.codecogs.com/svg.image?\bg{white}IG_i(x)&space;=&space;(x_i&space;-&space;x'_i)&space;\cdot&space;\frac{1}{m}&space;\cdot&space;\sum^m_{k&space;=&space;1}\frac{\partial&space;F(x'&space;-&space;\frac{k}{m}&space;\cdot(x&space;-&space;x'))}{\partial&space;x_i}" title="https://latex.codecogs.com/svg.image?\bg{white}IG_i(x) = (x_i - x'_i) \cdot \frac{1}{m} \cdot \sum^m_{k = 1}\frac{\partial F(x' - \frac{k}{m} \cdot(x - x'))}{\partial x_i}" />
+</p>
+
+where m is the number of steps in the Riemann sum approximation of the integral.
+This once again gives us an attribution coefficient for each input feature that we can then use to create a normalized heatmap again, similar to the previous methods.
+
 #### Grad-CAM
 Grad-CAM stands for Gradient-weighted Class Activation Map and a visual explanation for the decision making of convolutional neural networks. Different from the previous methods the gradients in Grad-CAM are not backpropagated to the input layer, but rather only to the last convolutional layer of our model.
 
@@ -232,3 +247,7 @@ Shrikumar, Avanti, Peyton Greenside, and Anshul Kundaje. "Learning important fea
 
 <a id="8">[8]</a> 
 Simonyan, Karen, Andrea Vedaldi, and Andrew Zisserman. "Deep inside convolutional networks: Visualising image classification models and saliency maps." arXiv preprint arXiv:1312.6034 (2013)
+
+<a id="9">[9]</a> 
+Image source, last accessed on 07.08.22
+<a href="https://www.tensorflow.org/tutorials/interpretability/integrated_gradients">https://www.tensorflow.org/tutorials/interpretability/integrated_gradients</a>
