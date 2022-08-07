@@ -49,7 +49,7 @@ Intuitively a black baseline image would represent the impact a pixel has on the
 From the nowadays large zoo of different saliency methods and their derivatives for this blog we settled on giving a short introduction on the most basic and widespread methods. In the following experiment we compared Gradient x Input, Integrated Gradients, and GradCam.
 
 #### Vanilla Gradients
-The Vanilla Gradients method works with three simple steps. First we make a forward pass with our input image. Then perform the backward pass to the input layer, for which we normally wouldn't compute the gradients for, but these are exactly what we are looking for. The gradients give us an estimate of pixel saliency because they are calculated with respect to the predicted output class, and are hence contributing to its prediction probability.
+The Vanilla Gradients <a href="#8">[8]</a> method works with three simple steps. First we make a forward pass with our input image. Then perform the backward pass to the input layer, for which we normally wouldn't compute the gradients for, but these are exactly what we are looking for. The gradients give us an estimate of pixel saliency because they are calculated with respect to the predicted output class, and are hence contributing to its prediction probability.
 <p align="center">
   <img src="https://latex.codecogs.com/svg.image?\bg{white}E_{GRAD}(I_0)&space;=&space;\frac{\delta&space;S_a}{\delta&space;I}|_{I&space;=&space;I_a}" title="https://latex.codecogs.com/svg.image?\bg{white}E_{GRAD}(I_0) = \frac{\delta S_a}{\delta I}|_{I = I_a}" />
 </p>
@@ -78,7 +78,7 @@ Hence, all activations that are below zero are cutoff and clamped to zero. This 
 While there are other activation functions our there that also include some additional non-zero activation (<0) for negative function values, such as **leaky ReLu**, the problem is essentialy still the same, as the attributions are heavily biased towards positive attributions. In some way we need the introduced non-linearity of the model, as otherwise our neural network would only be able to learn linear findings.
 
 #### Gradient x Input
-*DESCRIBE Method*
+Gradient x Input is a simply extention to the original Vanilla Gradients approach 
 
 #### Integrated Gradients
 *DESCRIBE Method*
@@ -219,3 +219,6 @@ Christoph Molnar; July 12, 2021; last accessed on 06.08.22
 
 <a id="7">[7]</a> 
 Shrikumar, Avanti, Peyton Greenside, and Anshul Kundaje. "Learning important features through propagating activation differences." International conference on machine learning. PMLR, 2017
+
+<a id="8">[8]</a> 
+Simonyan, Karen, Andrea Vedaldi, and Andrew Zisserman. "Deep inside convolutional networks: Visualising image classification models and saliency maps." arXiv preprint arXiv:1312.6034 (2013)
