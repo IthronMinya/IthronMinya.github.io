@@ -215,6 +215,9 @@ The results seem like cherry-picking at best and fraudulent at worst. But this i
 It is important to note that these methods can still be a good indicator of what kind of features the model uses for prediction, however, users need to be aware of the existing shortcomings of these techniques and not put too much confidence into a single basket. This also demonstrates the fragility of the **'learned'** concept for a convolutional neural network, at least this model didn't learn of the concepts of these different symbols visible in the training dataset but learned a fragile notion of classes from the image's pixels.
 
 
+Checkout my other personal project at:
+<a href="https://animeklub-konstanz.de">https://animeklub-konstanz.de</a>
+
 ## References
 <a id="1">[1]</a> 
 Irwan iwe; September 2, 2020; last accessed on 05.08.22
